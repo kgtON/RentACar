@@ -15,6 +15,5 @@ namespace RadexRent.Models
         public double EngineCapacity { get; set; }
         public string EngineType { get; set; }
         public int CarCapacity { get; set; }
-        public int Car
     }
 }
