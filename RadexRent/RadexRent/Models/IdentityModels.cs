@@ -34,10 +34,9 @@ namespace RadexRent.Models
             return new ApplicationDbContext();
         }
 
-        public int MyProperty { get; set; }
-        public DbSet<CarModel> dbContext_CarModel { get; set; }
-        public DbSet<CarRent> dbContext_CarRents { get; set; }
-        public DbSet<CarReservation> dbContext_CarReservation { get; set; }
+        public DbSet<CarModel> CarModel { get; set; }
+        public DbSet<CarRent> CarRents { get; set; }
+        public DbSet<CarReservation> CarReservation { get; set; }
 
     }
 }

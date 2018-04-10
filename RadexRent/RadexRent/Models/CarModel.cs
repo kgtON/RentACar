@@ -13,7 +13,7 @@ namespace RadexRent.Models
         public int ProductionYear { get; set; }
         public string Color { get; set; }
         public double EngineCapacity { get; set; }
-        public string EngineType { get; set; }
+        public EnumEngine EngineType { get; set; }
         public int CarCapacity { get; set; }
     }
 }
