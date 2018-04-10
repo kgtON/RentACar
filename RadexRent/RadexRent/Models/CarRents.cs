@@ -13,5 +13,7 @@ namespace RadexRent.Models
         public double Distance { get; set; }
         public double FuelWasted { get; set; }
         public double TotalCost { get; set; }
+
+        virtual Guid ApplicationUser { get; set; }
     }
 }

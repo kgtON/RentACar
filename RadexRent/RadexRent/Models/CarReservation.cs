@@ -11,6 +11,6 @@ namespace RadexRent.Models
         public string StartPlace { get; set; }
         public string EndPlace { get; set; }
 
-        public virtual ICollection<CarModel> CarIds { get; set; }
+        public virtual ICollection<CarModel> CarModels { get; set; }
     }
 }
