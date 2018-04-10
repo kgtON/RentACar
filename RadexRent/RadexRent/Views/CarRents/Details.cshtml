@@ -1,0 +1,82 @@
+﻿@model RadexRent.Models.CarRent
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CarRent</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Distance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Distance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FuelWasted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FuelWasted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

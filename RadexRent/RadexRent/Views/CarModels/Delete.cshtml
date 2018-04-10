@@ -1,0 +1,80 @@
+﻿@model RadexRent.Models.CarModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CarModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductionYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductionYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Color)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Color)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EngineCapacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EngineCapacity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EngineType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EngineType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CarCapacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CarCapacity)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

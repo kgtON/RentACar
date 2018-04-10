@@ -9,7 +9,7 @@ namespace RadexRent.Models
     {
         public int Id { get; set; }
         public string Model { get; set; }
-        public string Company { get; set; }
+        public EnumCompany Company { get; set; }
         public int ProductionYear { get; set; }
         public string Color { get; set; }
         public double EngineCapacity { get; set; }

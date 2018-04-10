@@ -190,15 +190,28 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CarModelsController.cs" />
+    <Compile Include="Controllers\CarRentsController.cs" />
+    <Compile Include="Controllers\CarReservationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804101741329_InitialCreate.cs" />
+    <Compile Include="Migrations\201804101741329_InitialCreate.Designer.cs">
+      <DependentUpon>201804101741329_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804101753581_Added enum on Company.cs" />
+    <Compile Include="Migrations\201804101753581_Added enum on Company.Designer.cs">
+      <DependentUpon>201804101753581_Added enum on Company.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CarModel.cs" />
     <Compile Include="Models\CarRent.cs" />
     <Compile Include="Models\CarReservation.cs" />
+    <Compile Include="Models\EnumCompany.cs" />
     <Compile Include="Models\EnumEngine.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -262,10 +275,24 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\CarModels\Create.cshtml" />
+    <Content Include="Views\CarModels\Delete.cshtml" />
+    <Content Include="Views\CarModels\Details.cshtml" />
+    <Content Include="Views\CarModels\Edit.cshtml" />
+    <Content Include="Views\CarModels\Index.cshtml" />
+    <Content Include="Views\CarRents\Create.cshtml" />
+    <Content Include="Views\CarRents\Delete.cshtml" />
+    <Content Include="Views\CarRents\Details.cshtml" />
+    <Content Include="Views\CarRents\Edit.cshtml" />
+    <Content Include="Views\CarRents\Index.cshtml" />
+    <Content Include="Views\CarReservations\Create.cshtml" />
+    <Content Include="Views\CarReservations\Delete.cshtml" />
+    <Content Include="Views\CarReservations\Details.cshtml" />
+    <Content Include="Views\CarReservations\Edit.cshtml" />
+    <Content Include="Views\CarReservations\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -279,6 +306,14 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201804101741329_InitialCreate.resx">
+      <DependentUpon>201804101741329_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804101753581_Added enum on Company.resx">
+      <DependentUpon>201804101753581_Added enum on Company.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
