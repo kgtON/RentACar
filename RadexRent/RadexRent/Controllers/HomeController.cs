@@ -16,7 +16,7 @@ namespace RadexRent.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-            //adad
+
             return View();
         }
 
