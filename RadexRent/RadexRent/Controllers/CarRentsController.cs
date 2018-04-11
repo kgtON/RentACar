@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using RadexRent.Models;
 using RadexRent.Repository.Interfacecs;
-using RadexRent.Repository.Interfaces;
 
 namespace RadexRent.Controllers
 {
@@ -26,7 +21,7 @@ namespace RadexRent.Controllers
         // GET: CarRents
         public ActionResult Index()
         {
-            return View(_carRentsRepository.GetWhere(i => !i.ApplicationUserId.Equals());
+            return View(_carRentsRepository.GetWhere(i => i.Id > 0));
         }
 
         // GET: CarRents/Details/5
@@ -36,7 +31,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarRent carRent = db.CarRents.Find(id);
+            CarRent carRent = _carRentsRepository.GetWhere(i => i.Id.Equals(id.Value)).FirstOrDefault();
             if (carRent == null)
             {
                 return HttpNotFound();
@@ -47,8 +42,6 @@ namespace RadexRent.Controllers
         // GET: CarRents/Create
         public ActionResult Create()
         {
-            CarViewModel carViewModel = new CarViewModel();
-            var userList = db.Users.Where(i => i.Id.Length > 0).ToList().FirstOrDefault();
             return View();
         }
 
@@ -57,12 +50,11 @@ namespace RadexRent.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ApplicationUserId,StartDateTime,EndDateTime,StartLocation,EndLocation,Distance,FuelWasted,TotalCost")] CarRent carRent)
+        public ActionResult Create(CarRent carRent)
         {
             if (ModelState.IsValid)
             {
-                db.CarRents.Add(carRent);
-                db.SaveChanges();
+                _carRentsRepository.Create(carRent);
                 return RedirectToAction("Index");
             }
 
@@ -76,7 +68,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarRent carRent = db.CarRents.Find(id);
+            CarRent carRent = _carRentsRepository.GetWhere(i => i.Id==id.Value).FirstOrDefault();
             if (carRent == null)
             {
                 return HttpNotFound();
@@ -89,12 +81,11 @@ namespace RadexRent.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ApplicationUserId,StartDateTime,EndDateTime,StartLocation,EndLocation,Distance,FuelWasted,TotalCost")] CarRent carRent)
+        public ActionResult Edit(CarRent carRent)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(carRent).State = EntityState.Modified;
-                db.SaveChanges();
+                _carRentsRepository.Edit(carRent);
                 return RedirectToAction("Index");
             }
             return View(carRent);
@@ -107,11 +98,12 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarRent carRent = db.CarRents.Find(id);
+            CarRent carRent = _carRentsRepository.GetWhere(i => i.Id.Equals(id.Value)).FirstOrDefault();
             if (carRent == null)
             {
                 return HttpNotFound();
             }
+
             return View(carRent);
         }
 
@@ -120,19 +112,10 @@ namespace RadexRent.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CarRent carRent = db.CarRents.Find(id);
-            db.CarRents.Remove(carRent);
-            db.SaveChanges();
+            CarRent carRent = _carRentsRepository.GetWhere(i => i.Id == id).FirstOrDefault();
+            _carRentsRepository.Delete(carRent);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

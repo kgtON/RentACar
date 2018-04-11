@@ -7,17 +7,25 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RadexRent.Models;
+using RadexRent.Repository.Interfaces;
 
 namespace RadexRent.Controllers
 {
     public class CarModelsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ICarModelRepository _carModelRepository;
+
+        public CarModelsController(
+            ICarModelRepository carModelRepository
+            )
+        {
+            _carModelRepository = carModelRepository;
+        }
 
         // GET: CarModels
         public ActionResult Index()
         {
-            return View(db.CarModel.ToList());
+            return View(_carModelRepository.GetWhere(i => i.Id > 0));
         }
 
         // GET: CarModels/Details/5
@@ -27,7 +35,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarModel carModel = db.CarModel.Find(id);
+            CarModel carModel = _carModelRepository.GetWhere(i => i.Id.Equals(id.Value)).FirstOrDefault();
             if (carModel == null)
             {
                 return HttpNotFound();
@@ -46,12 +54,11 @@ namespace RadexRent.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Model,Company,ProductionYear,Color,EngineCapacity,EngineType,CarCapacity")] CarModel carModel)
+        public ActionResult Create(CarModel carModel)
         {
             if (ModelState.IsValid)
             {
-                db.CarModel.Add(carModel);
-                db.SaveChanges();
+                _carModelRepository.Create(carModel);
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +72,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarModel carModel = db.CarModel.Find(id);
+            CarModel carModel = _carModelRepository.GetWhere(i => i.Id == id.Value).FirstOrDefault();
             if (carModel == null)
             {
                 return HttpNotFound();
@@ -78,12 +85,11 @@ namespace RadexRent.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Model,Company,ProductionYear,Color,EngineCapacity,EngineType,CarCapacity")] CarModel carModel)
+        public ActionResult Edit(CarModel carModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(carModel).State = EntityState.Modified;
-                db.SaveChanges();
+                _carModelRepository.Edit(carModel);
                 return RedirectToAction("Index");
             }
             return View(carModel);
@@ -96,7 +102,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarModel carModel = db.CarModel.Find(id);
+            CarModel carModel = _carModelRepository.GetWhere(i => i.Id.Equals(id.Value)).FirstOrDefault();
             if (carModel == null)
             {
                 return HttpNotFound();
@@ -109,19 +115,10 @@ namespace RadexRent.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CarModel carModel = db.CarModel.Find(id);
-            db.CarModel.Remove(carModel);
-            db.SaveChanges();
+            CarModel carModel = _carModelRepository.GetWhere(i => i.Id == id).FirstOrDefault();
+            _carModelRepository.Delete(carModel);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

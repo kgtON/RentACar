@@ -7,17 +7,47 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RadexRent.Models;
+using RadexRent.Repository;
+using RadexRent.Repository.Interfacecs;
 
 namespace RadexRent.Controllers
 {
     public class CarReservationsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ICarReservationRepository _carReservationRepository;
+        private readonly ICarRentsRepository _carRentRepository;
+
+        public CarReservationsController(
+            ICarReservationRepository carReservationRepository,
+            ICarRentsRepository carRentRepository
+            )
+        {
+            _carReservationRepository = carReservationRepository;
+            _carRentRepository = carRentRepository;
+        }
 
         // GET: CarReservations
         public ActionResult Index()
         {
-            return View(db.CarReservation.ToList());
+            CarViewModel carVM = new CarViewModel();
+            var users = _carRentRepository.GetWhereWithIncludes(i => !i.ApplicationUser.Id.Equals(Guid.Empty));
+            var listElements = new List<SelectListItem>();
+
+            //foreach (var user in users)
+            //{
+            //    listElements.Add(new SelectListItem
+            //    {
+            //        Value = user.ApplicationUserId. ToString(),
+            //        Text = use.Name + " " + salesAgent.Surname
+
+            //    });
+
+            //}
+            //_prototype.SalesAgents = new SelectList(listElements, "Value", "Text");
+            //return this;
+
+            //carVM.ListUsers = _carReservationRepository.GetWhere
+            return View(_carReservationRepository.GetWhere(i => i.Id > 0));
         }
 
         // GET: CarReservations/Details/5
@@ -27,7 +57,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarReservation carReservation = db.CarReservation.Find(id);
+            CarReservation carReservation = _carReservationRepository.GetWhere(i => i.Id.Equals(id.Value)).FirstOrDefault();
             if (carReservation == null)
             {
                 return HttpNotFound();
@@ -46,12 +76,11 @@ namespace RadexRent.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,StartDate,EndDate,StartPlace,EndPlace")] CarReservation carReservation)
+        public ActionResult Create(CarReservation carReservation)
         {
             if (ModelState.IsValid)
             {
-                db.CarReservation.Add(carReservation);
-                db.SaveChanges();
+                _carReservationRepository.Create(carReservation);
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +94,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarReservation carReservation = db.CarReservation.Find(id);
+            CarReservation carReservation = _carReservationRepository.GetWhere(i => i.Id == id.Value).FirstOrDefault();
             if (carReservation == null)
             {
                 return HttpNotFound();
@@ -82,8 +111,7 @@ namespace RadexRent.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(carReservation).State = EntityState.Modified;
-                db.SaveChanges();
+                _carReservationRepository.Edit(carReservation);
                 return RedirectToAction("Index");
             }
             return View(carReservation);
@@ -96,7 +124,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarReservation carReservation = db.CarReservation.Find(id);
+            CarReservation carReservation = _carReservationRepository.GetWhere(i => i.Id.Equals(id.Value)).FirstOrDefault();
             if (carReservation == null)
             {
                 return HttpNotFound();
@@ -109,19 +137,9 @@ namespace RadexRent.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            CarReservation carReservation = db.CarReservation.Find(id);
-            db.CarReservation.Remove(carReservation);
-            db.SaveChanges();
+            CarReservation carReservation = _carReservationRepository.GetWhere(i => i.Id == id).FirstOrDefault();
+            _carReservationRepository.Delete(carReservation);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
