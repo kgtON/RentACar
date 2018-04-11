@@ -7,17 +7,26 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RadexRent.Models;
+using RadexRent.Repository.Interfacecs;
+using RadexRent.Repository.Interfaces;
 
 namespace RadexRent.Controllers
 {
     public class CarRentsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ICarRentsRepository _carRentsRepository;
+
+        public CarRentsController(
+            ICarRentsRepository carRentsRepository
+            )
+        {
+            _carRentsRepository = carRentsRepository;
+        }
 
         // GET: CarRents
         public ActionResult Index()
         {
-            return View(db.CarRents.ToList());
+            return View(_carRentsRepository.GetWhere(i => !i.ApplicationUserId.Equals());
         }
 
         // GET: CarRents/Details/5
@@ -38,6 +47,8 @@ namespace RadexRent.Controllers
         // GET: CarRents/Create
         public ActionResult Create()
         {
+            CarViewModel carViewModel = new CarViewModel();
+            var userList = db.Users.Where(i => i.Id.Length > 0).ToList().FirstOrDefault();
             return View();
         }
 
