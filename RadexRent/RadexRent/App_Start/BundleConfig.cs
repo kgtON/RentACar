@@ -26,6 +26,12 @@ namespace RadexRent
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Styles/DatePicker").Include(
+                "~/Content/jquery-ui.min.css"));
+
+            bundles.Add(new ScriptBundle("~/Libraries/jQuery-UI").Include(
+                "~/Scripts/jquery-ui-1.12.1.js"));
         }
     }
 }
