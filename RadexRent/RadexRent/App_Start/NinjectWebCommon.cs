@@ -67,6 +67,7 @@ namespace RadexRent.App_Start
             kernel.Bind<ICarModelRepository>().To<CarModelRepository>();
             kernel.Bind<ICarRentsRepository>().To<CarRentsRepository>();
             kernel.Bind<ICarReservationRepository>().To<CarReservationRepository>();
+            kernel.Bind<IApplicationUserRepository>().To<ApplicationUserRepository>();
         }
 
     }

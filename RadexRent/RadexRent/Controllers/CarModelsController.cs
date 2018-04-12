@@ -35,7 +35,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarModel carModel = _carModelRepository.GetWhere(i => i.Id.Equals(id.Value)).FirstOrDefault();
+            CarModel carModel = _carModelRepository.GetWhere(i => i.Id == id.Value).FirstOrDefault();
             if (carModel == null)
             {
                 return HttpNotFound();
@@ -102,7 +102,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarModel carModel = _carModelRepository.GetWhere(i => i.Id.Equals(id.Value)).FirstOrDefault();
+            CarModel carModel = _carModelRepository.GetWhere(i => i.Id == id.Value).FirstOrDefault();
             if (carModel == null)
             {
                 return HttpNotFound();

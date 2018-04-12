@@ -223,6 +223,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CarModel.cs" />
     <Compile Include="Models\CarRent.cs" />
+    <Compile Include="Models\CarRentViewModel.cs" />
     <Compile Include="Models\CarReservation.cs" />
     <Compile Include="Models\CarViewModel.cs" />
     <Compile Include="Models\EnumCompany.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AbstractRepository.cs" />
+    <Compile Include="Repository\ApplicationUserRepository.cs" />
     <Compile Include="Repository\CarModelRepository.cs" />
     <Compile Include="Repository\CarReservationRepository.cs" />
     <Compile Include="Repository\CarRentsRepository.cs" />
@@ -238,6 +240,7 @@
     <Compile Include="Repository\Interfacecs\IAbstractRepository.cs" />
     <Compile Include="Repository\Interfacecs\ICarReservationRepository.cs" />
     <Compile Include="Repository\Interfacecs\ICarRentsRepository.cs" />
+    <Compile Include="Repository\Interfacecs\IApplicationUserRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

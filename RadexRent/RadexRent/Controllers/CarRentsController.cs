@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -10,18 +12,22 @@ namespace RadexRent.Controllers
     public class CarRentsController : Controller
     {
         private readonly ICarRentsRepository _carRentsRepository;
+        private readonly IApplicationUserRepository _appUserRepository;
 
         public CarRentsController(
-            ICarRentsRepository carRentsRepository
+            ICarRentsRepository carRentsRepository,
+            IApplicationUserRepository appUserRepository
             )
         {
             _carRentsRepository = carRentsRepository;
+            _appUserRepository = appUserRepository;
         }
 
         // GET: CarRents
         public ActionResult Index()
         {
-            return View(_carRentsRepository.GetWhere(i => i.Id > 0));
+            var carRents = _carRentsRepository.GetWhere(i => i.ApplicationUserId != Guid.Empty).ToList();
+            return View(carRents);
         }
 
         // GET: CarRents/Details/5
@@ -31,7 +37,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarRent carRent = _carRentsRepository.GetWhere(i => i.Id.Equals(id.Value)).FirstOrDefault();
+            CarRent carRent = _carRentsRepository.GetWhere(i => i.Id == id.Value).FirstOrDefault();
             if (carRent == null)
             {
                 return HttpNotFound();
@@ -42,7 +48,22 @@ namespace RadexRent.Controllers
         // GET: CarRents/Create
         public ActionResult Create()
         {
-            return View();
+            CarRentViewModel carRentVM = new CarRentViewModel();
+
+            var users = _appUserRepository.GetWhere(i => i.Id != string.Empty);
+            var listElements = new List<SelectListItem>();
+
+            foreach (var user in users)
+            {
+                listElements.Add(new SelectListItem
+                {
+                    Value = user.Id.ToString(),
+                    Text = user.UserName
+                });
+            };
+            carRentVM.ListUsers = new SelectList(listElements, "Value", "Text");
+            //return this;
+            return View(carRentVM);
         }
 
         // POST: CarRents/Create
@@ -50,15 +71,16 @@ namespace RadexRent.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CarRent carRent)
+        public ActionResult Create(CarRentViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _carRentsRepository.Create(carRent);
+                model.carRent.ApplicationUserId = model.UserID;
+                _carRentsRepository.Create(model.carRent);
                 return RedirectToAction("Index");
             }
 
-            return View(carRent);
+            return View(model);
         }
 
         // GET: CarRents/Edit/5
@@ -68,7 +90,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarRent carRent = _carRentsRepository.GetWhere(i => i.Id==id.Value).FirstOrDefault();
+            CarRent carRent = _carRentsRepository.GetWhere(i => i.Id == id.Value).FirstOrDefault();
             if (carRent == null)
             {
                 return HttpNotFound();
@@ -98,7 +120,7 @@ namespace RadexRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CarRent carRent = _carRentsRepository.GetWhere(i => i.Id.Equals(id.Value)).FirstOrDefault();
+            CarRent carRent = _carRentsRepository.GetWhere(i => i.Id == id.Value).FirstOrDefault();
             if (carRent == null)
             {
                 return HttpNotFound();

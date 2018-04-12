@@ -29,24 +29,7 @@ namespace RadexRent.Controllers
         // GET: CarReservations
         public ActionResult Index()
         {
-            CarViewModel carVM = new CarViewModel();
-            var users = _carRentRepository.GetWhereWithIncludes(i => !i.ApplicationUser.Id.Equals(Guid.Empty));
-            var listElements = new List<SelectListItem>();
-
-            //foreach (var user in users)
-            //{
-            //    listElements.Add(new SelectListItem
-            //    {
-            //        Value = user.ApplicationUserId. ToString(),
-            //        Text = use.Name + " " + salesAgent.Surname
-
-            //    });
-
-            //}
-            //_prototype.SalesAgents = new SelectList(listElements, "Value", "Text");
-            //return this;
-
-            //carVM.ListUsers = _carReservationRepository.GetWhere
+           
             return View(_carReservationRepository.GetWhere(i => i.Id > 0));
         }
 

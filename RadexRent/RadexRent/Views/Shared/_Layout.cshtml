@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Need a car? Rent it in here</title>
     <script type="text/javascript" src="~/Scripts/jquery-3.3.1.min.js"></script>
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Libraries/jQuery-UI")
@@ -47,3 +48,9 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script type="text/javascript">
+    $(".datepicker").datepicker(
+        { dateFormat: 'yy-mm-dd' });
+</script>
+
